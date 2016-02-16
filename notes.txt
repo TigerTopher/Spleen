@@ -1,0 +1,27 @@
+
+A = [0,0,0,0,0]
+A(1)
+A(2)
+
+Putting a semicolon at the end of line of Matlab/Octave code prevents the console from printing the answer/variable assignment/whatever.
+
+x=5
+Sets x to 5 and prints the value of x.
+
+x=5;
+Sets x to 5.
+
+
+typeinfo("hello");
+
+
+Data Types
+==========
+
+105
+1.05e+2
+1050e-1
+
+
+
+length(temp);
