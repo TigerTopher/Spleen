@@ -29,5 +29,5 @@ endfor
 # Display the data...
 # disp(data);
 
-linear_spline(data);
+# linear_spline(data);
 quadratic_spline(data);

@@ -124,10 +124,13 @@ function quadratic_spline(data)
 		# end
 								# This will provide n-1 conditions/equations. We now have all the needed equations.
 
-		matrix_A				# Un-comment to print the status of Matrix A
-		matrix_B				# Un-comment to print the status of Matrix B
-		# for j = 1:length(data{i})-1		# Per pair of entry
-		# endfor
+		# matrix_A				# Un-comment to print the status of Matrix A
+		# matrix_B				# Un-comment to print the status of Matrix B
+		solution = matrix_A\matrix_B;
+
+		solution = [0; solution]# Let us include a0 in the solution matrix.
+								# Note that the matrix containes a0, a1, ... an, b0, b1, .. bn, c0, c1, ... cn
+		
 	endfor
 								# Let the plotting begin here
 
