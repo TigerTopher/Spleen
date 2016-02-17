@@ -70,7 +70,7 @@ function quadratic_spline(data)
 		# matrix_B				# Un-comment to print the status of Matrix B
 								# 3.) The first and last functions must pass through the end points.
 								# Initialize temp that is going to be added to matrix
-		temp = []
+		temp = [];
 		for k = 1:(3*n-1) 		# Set the default values for the columns for the row in the matrix (a1, a2,..., cn) be zero
 			temp = [temp, 0];
 		endfor
@@ -82,14 +82,14 @@ function quadratic_spline(data)
 		temp(2*n) = 1;
 								# Add to Matrix A
 		matrix_A = [matrix_A; temp];
-		temp = []
+		temp = [];
 		for k = 1:(3*n-1) 		# Set the default values for the columns for the row in the matrix (a1, a2,..., cn) be zero
 			temp = [temp, 0];
 		endfor
 								# An(Xn)^(2) + BnXn + Cn = f(Xn)
 		temp(n-1) = (data{i}{n+1}{1})**2;
 		temp(2*n-1) = (data{i}{n+1}{1});
-		temp(3*n-1) = 1;
+		temp(3*n-1) = 1;	
 								# Add to Matrix A
 		matrix_A = [matrix_A; temp];
 
@@ -100,8 +100,28 @@ function quadratic_spline(data)
 		matrix_B = [matrix_B; data{i}{n+1}{2}];
 
 								# 4.) The first derivative at the interior knots must be equal. The two conditions 
-								# can be represented generally as 2Ai-1*Xi-1 +Bi-1 - 2Ai*Xi - Bi = 0
+								# can be represented generally as Ai-1*(2*Xi-1) + Bi-1 - Ai(2*Xi) - Bi = 0
 								# for i = 2 to n.
+
+		for j = 2:n
+			temp = [];
+			for k = 1:(3*n-1) 		# Set the default values for the columns for the row in the matrix (a1, a2,..., cn) be zero
+				temp = [temp, 0];
+			endfor
+								# Ai-1 = (2*Xi-1)
+			if(j != 2)			# We know that a0 is already zero, so we check that condition.
+				temp(j-2) = 2*(data{i}{j}{1});
+			endif							
+								# Bi-1 = +1
+			temp(n+j-2) = 1;
+								# Ai   = (2*Xi-1)
+			temp(j-1) = -2*(data{i}{j}{1});
+								# Bi   = -1
+			temp(n+j-1) = -1;
+			matrix_A = [matrix_A; temp];
+			matrix_B = [matrix_B; 0];
+		endfor
+		# end
 								# This will provide n-1 conditions/equations. We now have all the needed equations.
 
 		matrix_A				# Un-comment to print the status of Matrix A
