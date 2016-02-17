@@ -7,13 +7,12 @@
 # Nevertheless, all the codes here are my creation. 
 
 function quadratic_spline(data)
-	# figure;
+	figure;
 	for i = 1:length(data)		# Loop the entries that was split by the delimiter 'SHAPE' from earlier
 								# First, get the number of data points and intervals
 								# Note that we have n + 1 data points and
 								# n intervals
 		n = length(data{i}) - 1;
-		n
 								# 1.) Let us now set a1 to be zero. Thus, this becomes our first equation
 		a1 = 0;
 								# Note that we need 3*n equations
@@ -31,7 +30,6 @@ function quadratic_spline(data)
 								# 2.) We need to show that the function values of adjacent
 								# polynomials must be equal at their interior knots.
 								# This will provide 2n-2 conditions. After this, we only need n-3 equations.
-		data{i}
 		for j = 2:n				# from the range i = 2 to n
 								# Because of the format, we know that we have 3*n - 1 entries
 								# x1 = data{i}{j-1}{1}; and y1 = data{i}{j-1}{2};
@@ -128,12 +126,28 @@ function quadratic_spline(data)
 		# matrix_B				# Un-comment to print the status of Matrix B
 		solution = matrix_A\matrix_B;
 
-		solution = [0; solution]# Let us include a0 in the solution matrix.
-								# Note that the matrix containes a0, a1, ... an, b0, b1, .. bn, c0, c1, ... cn
-		
+		solution = [0; solution]# Let us include a1 in the solution matrix.
+								# Note that the matrix containes a1, a2, ... an, b1, b2, .. bn, c1, c2, ... cn
+
+		for j = 1:length(data{i})-1		# Per pair of entry
+			x0 = data{i}{j}{1};
+			y0 = data{i}{j}{2};
+			x1 = data{i}{j+1}{1};
+			y1 = data{i}{j+1}{2};
+			if(x0 > x1)			# We might need to swap the points since we have a range that always go from left to right
+				temp1 = x1;
+				temp2 = y1;
+				x1 = x0;
+				y1 = y0;
+				x0 = temp1;
+				y0 = temp2;
+			endif
+			domain_of_x = x0:0.01:x1;
+			our_function = solution(j)*((domain_of_x).**2) + solution(n+j)*(domain_of_x) + solution(2*n+j);
+			plot(domain_of_x, our_function);
+			hold on;
+		endfor
 	endfor
-								# Let the plotting begin here
 
-
-	# hold off;
+	hold off;
 endfunction
