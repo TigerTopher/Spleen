@@ -78,29 +78,34 @@ function quadratic_spline(data)
 								# A1(X0)^(2) + B1X0 + C1 = f(X0)
 								# Since we have set A1 to be zero from earlier, we can remove A1 in the equation.
 								# We have: B1X0 + C1 = f(X0)
+		temp(n) = data{i}{1}{1};
+		temp(2*n) = 1;
 								# Add to Matrix A
 		matrix_A = [matrix_A; temp];
-
 		temp = []
 		for k = 1:(3*n-1) 		# Set the default values for the columns for the row in the matrix (a1, a2,..., cn) be zero
 			temp = [temp, 0];
 		endfor
-
 								# An(Xn)^(2) + BnXn + Cn = f(Xn)
+		temp(n-1) = (data{i}{n+1}{1})**2;
+		temp(2*n-1) = (data{i}{n+1}{1});
+		temp(3*n-1) = 1;
 								# Add to Matrix A
 		matrix_A = [matrix_A; temp];
-		
+
 								# This gives 2 additional equations. After this, we only need n-1 equations
 								# Add the entry f(X0) to Matrix B
-		# matrix_B = [matrix_B, data{i}{1}{2}];
+		matrix_B = [matrix_B; data{i}{1}{2}];
 								# Add the entry f(Xn) to Matrix B
-		# matrix_B = [matrix_B, data{i}{n+1}{2}];
+		matrix_B = [matrix_B; data{i}{n+1}{2}];
 
 								# 4.) The first derivative at the interior knots must be equal. The two conditions 
 								# can be represented generally as 2Ai-1*Xi-1 +Bi-1 - 2Ai*Xi - Bi = 0
 								# for i = 2 to n.
 								# This will provide n-1 conditions/equations. We now have all the needed equations.
 
+		matrix_A				# Un-comment to print the status of Matrix A
+		matrix_B				# Un-comment to print the status of Matrix B
 		# for j = 1:length(data{i})-1		# Per pair of entry
 		# endfor
 	endfor
