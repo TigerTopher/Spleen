@@ -1,11 +1,10 @@
 # Christopher Ivan Vizcarra | 2013-58235 | CS 131 THR
 
-#{ [Citing my Reference]
-My documentation and comments are based from the book
-"Numerical Methods for Engineers Sixth Edition" by Canale and Capra since this was 
-my go-to reference book in understanding quadratic and cubic splines.
-Nevertheless, all the codes here are my creation. 
-#}
+# [Citing my Reference]
+# My documentation and comments are based from the book
+# "Numerical Methods for Engineers Sixth Edition" by Canale and Capra since this was 
+# my go-to reference book in understanding quadratic and cubic splines.
+# Nevertheless, all the codes here are my creation. 
 
 function quadratic_spline(data)
 	# figure;
@@ -14,6 +13,7 @@ function quadratic_spline(data)
 								# Note that we have n + 1 data points and
 								# n intervals
 		n = length(data{i}) - 1;
+		n
 								# 1.) Let us now set a1 to be zero. Thus, this becomes our first equation
 		a1 = 0;
 								# Note that we need 3*n equations
@@ -31,21 +31,40 @@ function quadratic_spline(data)
 								# 2.) We need to show that the function values of adjacent
 								# polynomials must be equal at their interior knots.
 								# This will provide 2n-2 conditions. After this, we only need n-3 equations.
-
+		data{i}
 		for j = 2:n				# from the range i = 2 to n
 								# Because of the format, we know that we have 3*n - 1 entries
 								# x1 = data{i}{j-1}{1}; and y1 = data{i}{j-1}{2};
 								# First Equation:  Ai-1*(Xi-1)^2 + Bi-1*Xi-1 + Ci-1 = f(Xi-1)
-			for k = 2:n
-				temp = [];
-				if 				# We don't need to add the a0 so let's have a special condition for that
-				end if
+			temp = [];
+			for k = 1:(3*n-1) 	# Set the default values for the columns for the row in the matrix (a1, a2,..., cn) be zero
+				value = 0;
+				temp = [temp, value];
 			endfor
-
-			matrix_B = [matrix_B; data{i}{j-1}{2}];
+			# Write A
+			if(j != 2)			# We know that a0 is already zero, so we check that condition.
+				temp(j-2) = (data{i}{j}{1})**2;
+			endif
+			# Write B
+			temp(n+j-2) = data{i}{j}{1};
+			# Write C
+			temp(2*n+j-2) = 1;
+			matrix_A = [matrix_A; temp];
+			matrix_B = [matrix_B; data{i}{j}{2}];
 								# Second Equation: Ai*(Xi-1)^2   + Bi*Xi-1   + C    = f(Xi-1)
-			matrix_B = [matrix_B; data{i}{j-1}{2}];
-
+			temp = [];
+			for k = 1:(3*n-1) 	# Set the default values for the columns for the row in the matrix (a1, a2,..., cn) be zero
+				value = 0;
+				temp = [temp, value];
+			endfor
+			# Write A
+			temp(j-1) = (data{i}{j}{1})**2;
+			# Write B
+			temp(n+j-1) = data{i}{j}{1};
+			# Write C
+			temp(2*n+j-1) = 1;
+			matrix_A = [matrix_A; temp]
+			matrix_B = [matrix_B; data{i}{j}{2}];
 		endfor
 		matrix_A
 		matrix_B
