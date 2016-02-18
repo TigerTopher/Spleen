@@ -30,4 +30,6 @@ endfor
 # disp(data);
 
 # linear_spline(data);
-quadratic_spline(data);
+# quadratic_spline(data);
+# disp(data);
+cubic_spline(data);

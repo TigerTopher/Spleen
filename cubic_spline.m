@@ -1,1 +1,103 @@
 # Christopher Ivan Vizcarra | 2013-58235 | CS 131 THR
+
+function cubic_spline(data)
+	#figure;
+	for i = 1:length(data)		# Loop the entries that was split by the delimiter 'SHAPE' from earlier
+								# First, get the number of data points and intervals
+								# Note that we have n + 1 data points and
+								# n intervals
+		n = length(data{i}) - 1;
+		matrix_A = [];
+		matrix_B = [];
+								# Since this is a cubic spline, we need to have 4n equations
+		
+		for j = 2:n
+ 								# 1. The function value must be equal at the interior point
+ 								# This gives 2n-2 condition
+ 								# From the range i = 2 to n, we have
+								# First Equation:  Ai-1*(Xi-1)^3 + Bi-1*(Xi-1)^2 + Ci-1*(Xi-1) + Di-1 = f(Xi-1)
+								# Second Equation:  Ai*(Xi-1)^3 + Bi*(Xi-1)^2 + Ci*(Xi-1) + Di = f(Xi-1)
+			temp = [];
+								# Set the values to be zero first. Temp contains
+								# a1, ... an, b1, ..., bn, c1  , ..., cn, d1,   ..., dn
+								# 1,  ... N , N+1,..., 2N, 2N+1  ..., 3N, 3N+1, ..., 3N
+			for k = 1:(4*n)
+				temp = [temp, 0];
+			endfor
+								# Write Ai-1
+			temp(j-1) = (data{i}{j}{1})^3;
+								# Write Bi-1
+			temp(n+j-1) = (data{i}{j}{1})^2; 
+								# Write Ci-1
+			temp(2*n+j-1) = (data{i}{j}{1}); 
+								# Write Di-1
+			temp(3*n+j-1) = 1;
+
+			matrix_A = [matrix_A; temp]; 
+			matrix_B = [matrix_B; data{i}{j}{2}];
+
+			temp = [];
+			for k = 1:(4*n)
+				temp = [temp, 0];
+			endfor
+								# Write Ai-1
+			temp(j) = (data{i}{j}{1})^3;
+								# Write Bi-1
+			temp(n+j) = (data{i}{j}{1})^2; 
+								# Write Ci-1
+			temp(2*n+j) = (data{i}{j}{1}); 
+								# Write Di-1
+			temp(3*n+j) = 1;
+			
+			matrix_A = [matrix_A; temp]; 
+			matrix_B = [matrix_B; data{i}{j}{2}];
+
+			# matrix_A			# Uncomment this to print the matrix_A
+			# matrix_B			# Uncomment this to print the matrix_B
+		endfor
+								
+								# 2. The first and last endpoint must pass through the end points (2 conditions)
+								# A1(X0)^3 + B1(X0)^2 + C1X0   + D1 = f(X0)
+		temp = [];
+
+		for k = 1:(4*n)
+			temp = [temp,0];
+		endfor
+
+		temp(1) = (data{i}{1}{1})^3;			
+		temp(n+1) = (data{i}{1}{1})^2;
+		temp(2*n+1) = (data{i}{1}{1});
+		temp(3*n+1) = 1;
+
+		matrix_A = [matrix_A; temp];
+									# AN(Xn)^3 + Bn(Xn)^2 + CnXn + Dn = f(Xn)							
+		temp = [];
+		for k = 1:(4*n)
+			temp = [temp,0];
+		endfor
+
+		temp(n) = (data{i}{n+1}{1})^3;			
+		temp(2*n) = (data{i}{n+1}{1})^2;
+		temp(3*n) = (data{i}{n+1}{1});
+		temp(4*n) = 1;
+		matrix_A = [matrix_A; temp];
+
+		matrix_B = [matrix_B; data{i}{1}{2}];
+		matrix_B = [matrix_B; data{i}{n+1}{2}];
+
+								# 3. The first derivatives at the interior knots must be equal (n-1 conditions)
+								# f'(x) = 3ax^2 + 2bx + c. So we have
+								# From i = 2:n
+								# 3*Ai-1*(Xi-1)^2 + 2*(Bi-1)*(Xi-1) + (Ci-1) = 3 Ai*(Xi-1)^2 + 2*(Bi)*(Xi-1) + (C)
+								# 3*Ai-1*(Xi-1)^2 + 2*(Bi-1)*(Xi-1) + (Ci-1) - 3 Ai*(Xi-1)^2 - 2*(Bi)*(Xi-1) - (C) = 0
+		
+
+
+								# 5. 2nd derivatives at the end knots are zero
+								# 6*A1X0 + 2B1 = 0
+								# 6*AnXn + 2Bn = 0
+	endfor
+	matrix_A
+	matrix_B
+	#hold off;
+endfunction 
