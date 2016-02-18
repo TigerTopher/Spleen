@@ -1,6 +1,12 @@
 # Christopher Ivan Vizcarra | 2013-58235 | CS 131 THR
 
 function data = get_the_file (filename)
+	try
+		filename;
+	catch
+		filename = "input.txt"
+	end_try_catch
+
 	fid = fopen(filename, "r");
 	data = cell();
 	temp = cell();
@@ -27,3 +33,5 @@ function data = get_the_file (filename)
 	# Display the data...
 	return
 endfunction
+
+# Developed by: Toph Vizcarra, 2016

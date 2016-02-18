@@ -1,7 +1,13 @@
 # Christopher Ivan Vizcarra | 2013-58235 | CS 131 THR
 
 function linear_spline(data)
-	figure;
+	try
+		data;
+	catch
+		data = get_the_file("input.txt");
+	end_try_catch
+
+	figure('name','Linear Spline | Vizcarra, Christopher');
 	for i = 1:length(data)				# Loop the entries that was split by the delimiter 'SHAPE' from earlier
 		for j = 1:length(data{i})-1		# Per pair of entry
 			x0 = data{i}{j}{1};
@@ -19,7 +25,7 @@ function linear_spline(data)
 				range_of_y = y0:0.01:y1;
 				domain_of_x = x0 + 0*range_of_y;
 
-				plot(domain_of_x, range_of_y);
+				plot(domain_of_x, range_of_y, "color", "r");
 				hold on;
 			else
 				if(x0 > x1)			# We might need to swap the points since we have a range that always go from left to right
@@ -36,10 +42,12 @@ function linear_spline(data)
 				# This will be our equation
 				domain_of_x = x0:0.01:x1;
 				our_function = m*domain_of_x - m*x0 + y0;
-				plot(domain_of_x, our_function);
+				plot(domain_of_x, our_function, "color", "r");
 				hold on;
 			endif		
 		endfor
 	endfor
 	hold off;
 endfunction
+
+# Developed by: Toph Vizcarra, 2016

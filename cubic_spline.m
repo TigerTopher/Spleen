@@ -7,7 +7,13 @@
 # Nevertheless, all the codes here are my creation. 
 
 function cubic_spline(data)
-	figure;
+	try
+		data;
+	catch
+		data = get_the_file("input.txt");
+	end_try_catch
+
+	figure('name','Cubic Spline | Vizcarra, Christopher');
 	for i = 1:length(data)		# Loop the entries that was split by the delimiter 'SHAPE' from earlier
 								# First, get the number of data points and intervals
 								# Note that we have n + 1 data points and
@@ -172,9 +178,9 @@ function cubic_spline(data)
 
 
 			solution = matrix_A\matrix_B;
-			matrix_A
-			matrix_B
-			solution
+			# matrix_A						# Uncomment this to print the Matrix A
+			# matrix_B						# Uncomment this to print the Matrix B
+			# solution						# Uncomment this to print the Solution (Coefficients)
 
 			for j = 1:length(data{i})-1		# Per pair of entry
 				x0 = data{i}{j}{1};
@@ -191,7 +197,7 @@ function cubic_spline(data)
 					range_of_y = y0:0.01:y1;
 					domain_of_x = x0 + 0*range_of_y;
 
-					plot(domain_of_x, range_of_y);
+					plot(domain_of_x, range_of_y, "color", "b");
 					hold on;
 				else
 					if(x0 > x1)			# We might need to swap the points since we have a range that always go from left to right
@@ -206,7 +212,7 @@ function cubic_spline(data)
 
 					our_function = solution(j)*((domain_of_x).**3) + solution(n+j)*((domain_of_x).**2) + solution(2*n+j)*(domain_of_x) + solution(3*n+j);
 					
-					plot(domain_of_x, our_function);
+					plot(domain_of_x, our_function, "color", "b");
 					hold on;
 				endif
 			endfor
@@ -226,7 +232,7 @@ function cubic_spline(data)
 				range_of_y = y0:0.01:y1;
 				domain_of_x = x0 + 0*range_of_y;
 
-				plot(domain_of_x, range_of_y);
+				plot(domain_of_x, range_of_y, "color", "b");
 				hold on;
 			else
 				if(x0 > x1)			# We might need to swap the points since we have a range that always go from left to right
@@ -243,10 +249,12 @@ function cubic_spline(data)
 				# This will be our equation
 				domain_of_x = x0:0.01:x1;
 				our_function = m*domain_of_x - m*x0 + y0;
-				plot(domain_of_x, our_function);
+				plot(domain_of_x, our_function, "color", "b");
 				hold on;
 			endif
 		endif
 	endfor
 	hold off;
 endfunction 
+
+# Developed by: Toph Vizcarra, 2016
