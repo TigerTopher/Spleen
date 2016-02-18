@@ -15,7 +15,7 @@
 
 
 data = get_the_file("input.txt");
-
+# disp(data);
 linear_spline(data);
 quadratic_spline(data);
 cubic_spline(data);

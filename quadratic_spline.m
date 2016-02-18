@@ -167,11 +167,11 @@ function quadratic_spline(data)
 					hold on;
 				endif
 			endfor
-		elseif(n == 2)				# This is just a line
-			x0 = data{i}{j}{1};
-			y0 = data{i}{j}{2};
-			x1 = data{i}{j+1}{1};
-			y1 = data{i}{j+1}{2};
+		elseif(n == 1)				# This is just a line
+			x0 = data{i}{1}{1};
+			y0 = data{i}{1}{2};
+			x1 = data{i}{2}{1};
+			y1 = data{i}{2}{2};
 
 			if(x0 == x1)
 				if(y0 > y1)
