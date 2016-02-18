@@ -62,7 +62,7 @@ function quadratic_spline(data)
 									# Write C
 				temp(2*n+j-1) = 1;
 				matrix_A = [matrix_A; temp];
-				matrix_B = [matrix_B; data{i}{j}{2}]
+				matrix_B = [matrix_B; data{i}{j}{2}];
 			endfor
 
 			# matrix_A				# Un-comment to print the status of Matrix A
@@ -129,24 +129,37 @@ function quadratic_spline(data)
 
 			solution = [0; solution]; # Let us include a1 in the solution matrix.
 									# Note that the matrix containes a1, a2, ... an, b1, b2, .. bn, c1, c2, ... cn
-
 			for j = 1:length(data{i})-1		# Per pair of entry
 				x0 = data{i}{j}{1};
 				y0 = data{i}{j}{2};
 				x1 = data{i}{j+1}{1};
 				y1 = data{i}{j+1}{2};
-				if(x0 > x1)			# We might need to swap the points since we have a range that always go from left to right
-					temp1 = x1;
-					temp2 = y1;
-					x1 = x0;
-					y1 = y0;
-					x0 = temp1;
-					y0 = temp2;
+				if(x0 == x1)
+					if(y0 > y1)
+						temp = y1;
+						y1 = y0;
+						y0 = temp;
+					endif
+
+					range_of_y = y0:0.01:y1;
+					domain_of_x = x0 + 0*range_of_y;
+
+					plot(domain_of_x, range_of_y);
+					hold on;
+				else
+					if(x0 > x1)			# We might need to swap the points since we have a range that always go from left to right
+						temp1 = x1;
+						temp2 = y1;
+						x1 = x0;
+						y1 = y0;
+						x0 = temp1;
+						y0 = temp2;
+					endif
+					domain_of_x = x0:0.01:x1;
+					our_function = solution(j)*((domain_of_x).**2) + solution(n+j)*(domain_of_x) + solution(2*n+j);
+					plot(domain_of_x, our_function);
+					hold on;
 				endif
-				domain_of_x = x0:0.01:x1;
-				our_function = solution(j)*((domain_of_x).**2) + solution(n+j)*(domain_of_x) + solution(2*n+j);
-				plot(domain_of_x, our_function);
-				hold on;
 			endfor
 		elseif(n == 2)				# This is just a line
 			x0 = data{i}{j}{1};
