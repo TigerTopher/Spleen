@@ -1,5 +1,11 @@
 # Christopher Ivan Vizcarra | 2013-58235 | CS 131 THR
 
+# [Citing my Reference]
+# My documentation and comments are based from the book
+# "Numerical Methods for Engineers Sixth Edition" by Canale and Capra since this was 
+# my go-to reference book in understanding quadratic and cubic splines.
+# Nevertheless, all the codes here are my creation. 
+
 function cubic_spline(data)
 	figure;
 	for i = 1:length(data)		# Loop the entries that was split by the delimiter 'SHAPE' from earlier

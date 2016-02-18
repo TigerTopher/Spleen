@@ -1,1 +1,0 @@
-regula_falsi(1,2);
