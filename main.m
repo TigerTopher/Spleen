@@ -11,6 +11,8 @@
 	(say you called the functions individually and not using main),
 	then the function itself calls the get_the_file function (with the default
 	filename as "input.txt") to get the data itself, then proceed to the spline function.
+
+	I am using Octave 3.8.1 and it was configured for "x86_64-pc-linux-gnu".
 #}
 
 
