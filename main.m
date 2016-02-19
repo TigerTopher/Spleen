@@ -21,8 +21,8 @@
 	I was able to run my program in Windows 8.1 using Octave 3.6.4.
 	Since Octave 4.0.0 is unsupported in Windows 8.1 (buggy for plotting),
 	I needed to change the graphics backend to 'gnuplot' (which was easily installed in Octave 3.6.4)
-	(although it was around 4 times slower and buggy on plotting the graph. And sometimes the program terminates
-	before even plotting the graph). The Octave CLI was used.
+	(although it was around 4 times slower and sometimes needed to run the program twice
+	for the last graph plotted on the first run appear). The Octave CLI was used.
 	Moreover, my terminal says that Octave was configured for "i686-pc-mingw32"
 #}
 
@@ -39,6 +39,7 @@ quadratic_spline(data);
 
 disp("Starting to plot cubic spline...");
 cubic_spline(data);
-
+figure;
+close;
 disp("Program ends.");
 # Programmed by: Toph Vizcarra, 2016
