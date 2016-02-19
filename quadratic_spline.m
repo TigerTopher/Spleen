@@ -1,12 +1,14 @@
 # Christopher Ivan Vizcarra | 2013-58235 | CS 131 THR
 
 # [Citing my Reference]
-# My documentation and comments are based from the book
+# Some of the equations and conditions found in my documentation are based from the book
 # "Numerical Methods for Engineers Sixth Edition" by Canale and Capra since this was 
 # my go-to reference book in understanding quadratic and cubic splines.
 # Nevertheless, all the codes here are my creation. 
 
 function quadratic_spline(data)
+
+	# If this is called without the parameter data, then let's get the data first.
 	try
 		data;
 	catch
@@ -14,10 +16,11 @@ function quadratic_spline(data)
 	end_try_catch
 
 	figure('name','Quadratic Spline | Vizcarra, Christopher');
-	for i = 1:length(data)		# Loop the entries that was split by the delimiter 'SHAPE' from earlier
-								# First, get the number of data points and intervals
-								# Note that we have n + 1 data points and
-								# n intervals
+
+	for i = 1:length(data)			# Loop the entries that was split by the delimiter 'SHAPE' from earlier
+									# First, get the number of data points and intervals
+									# Note that we have n + 1 data points and
+									# n intervals
 		n = length(data{i}) - 1;
 		if(n > 1)
 									# 1.) Let us now set a1 to be zero. Thus, this becomes our first equation
@@ -34,6 +37,7 @@ function quadratic_spline(data)
 									# Matrix B on the other hand contains the constant values per equation (RHS)
 			matrix_A = [];
 			matrix_B = [];
+
 									# 2.) We need to show that the function values of adjacent
 									# polynomials must be equal at their interior knots.
 									# This will provide 2n-2 conditions. After this, we only need n-3 equations.
@@ -73,6 +77,7 @@ function quadratic_spline(data)
 
 			# matrix_A				# Un-comment to print the status of Matrix A
 			# matrix_B				# Un-comment to print the status of Matrix B
+
 									# 3.) The first and last functions must pass through the end points.
 									# Initialize temp that is going to be added to matrix
 			temp = [];
@@ -110,7 +115,7 @@ function quadratic_spline(data)
 
 			for j = 2:n
 				temp = [];
-				for k = 1:(3*n-1) 		# Set the default values for the columns for the row in the matrix (a1, a2,..., cn) be zero
+				for k = 1:(3*n-1) 	# Set the default values for the columns for the row in the matrix (a1, a2,..., cn) be zero
 					temp = [temp, 0];
 				endfor
 									# Ai-1 = (2*Xi-1)
@@ -126,15 +131,15 @@ function quadratic_spline(data)
 				matrix_A = [matrix_A; temp];
 				matrix_B = [matrix_B; 0];
 			endfor
-			# end
 									# This will provide n-1 conditions/equations. We now have all the needed equations.
 
 			# matrix_A				# Un-comment to print the status of Matrix A
 			# matrix_B				# Un-comment to print the status of Matrix B
 			solution = matrix_A\matrix_B;
 
-			solution = [0; solution]; # Let us include a1 in the solution matrix.
-									# Note that the matrix containes a1, a2, ... an, b1, b2, .. bn, c1, c2, ... cn
+			solution = [0; solution];# Let us include a1 in the solution matrix.
+									 # Note that the matrix now containes a1, a2, ... an, b1, b2, .. bn, c1, c2, ... cn
+
 			for j = 1:length(data{i})-1		# Per pair of entry
 				x0 = data{i}{j}{1};
 				y0 = data{i}{j}{2};
@@ -153,7 +158,7 @@ function quadratic_spline(data)
 					plot(domain_of_x, range_of_y, "color", "K");
 					hold on;
 				else
-					if(x0 > x1)			# We might need to swap the points since we have a range that always go from left to right
+					if(x0 > x1)		# We might need to swap the points since we have a range that always go from left to right
 						temp1 = x1;
 						temp2 = y1;
 						x1 = x0;
@@ -167,13 +172,13 @@ function quadratic_spline(data)
 					hold on;
 				endif
 			endfor
-		elseif(n == 1)				# This is just a line
+		elseif(n == 1)				# If we have only two points, we need to create a line between them
 			x0 = data{i}{1}{1};
 			y0 = data{i}{1}{2};
 			x1 = data{i}{2}{1};
 			y1 = data{i}{2}{2};
 
-			if(x0 == x1)
+			if(x0 == x1)			# Case where line is vertical
 				if(y0 > y1)
 					temp = y1;
 					y1 = y0;
@@ -208,4 +213,4 @@ function quadratic_spline(data)
 	hold off;
 endfunction
 
-# Developed by: Toph Vizcarra, 2016
+# Programmed by: Toph Vizcarra, 2016

@@ -1,6 +1,8 @@
 # Christopher Ivan Vizcarra | 2013-58235 | CS 131 THR
 
 function linear_spline(data)
+
+	# If this is called without the parameter data, then let's get the data first.
 	try
 		data;
 	catch
@@ -15,8 +17,8 @@ function linear_spline(data)
 			x1 = data{i}{j+1}{1};
 			y1 = data{i}{j+1}{2};
 
-			if(x0 == x1)
-				if(y0 > y1)
+			if(x0 == x1)				# The slope of this is undefined so let's have a separate if-block for this.
+				if(y0 > y1)				# Since range is from lower to higher value, we might need to swap
 					temp = y1;
 					y1 = y0;
 					y0 = temp;
@@ -28,7 +30,7 @@ function linear_spline(data)
 				plot(domain_of_x, range_of_y, "color", "r");
 				hold on;
 			else
-				if(x0 > x1)			# We might need to swap the points since we have a range that always go from left to right
+				if(x0 > x1)				# We might need to swap the points since we have a range that always go from left to right
 					temp1 = x1;
 					temp2 = y1;
 					x1 = x0;
@@ -39,7 +41,7 @@ function linear_spline(data)
 
 				m = (y1 - y0)/(x1 - x0);	# Slope
 
-				# This will be our equation
+											# This will be our equation
 				domain_of_x = x0:0.01:x1;
 				our_function = m*domain_of_x - m*x0 + y0;
 				plot(domain_of_x, our_function, "color", "r");

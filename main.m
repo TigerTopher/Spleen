@@ -3,9 +3,9 @@
 #{
 	1. You can run main.m to get all the linear, quadratic, and cubic splines.
 	2. Or you can run each one individually:
-		linear_spline
-		quadratic_spline
-		cubic_spline
+		linear_spline.m
+		quadratic_spline.m
+		cubic_spline.m
 
 	Note: If the variable data has not been passed as a parameter for the spline functions,
 	(say you called the functions individually and not using main),
@@ -15,13 +15,13 @@
 	I am using Octave 3.8.1 and it was configured for "x86_64-pc-linux-gnu".
 #}
 
-
 data = get_the_file("input.txt");
-# disp(data);
+# disp(data);						# Uncomment this to display the data
+
 linear_spline(data);
 quadratic_spline(data);
 cubic_spline(data);
 
 
 
-# Developed by: Toph Vizcarra, 2016
+# Programmed by: Toph Vizcarra, 2016

@@ -1,12 +1,14 @@
 # Christopher Ivan Vizcarra | 2013-58235 | CS 131 THR
 
 # [Citing my Reference]
-# My documentation and comments are based from the book
+# Some of the equations and conditions found in my documentation are based from the book
 # "Numerical Methods for Engineers Sixth Edition" by Canale and Capra since this was 
 # my go-to reference book in understanding quadratic and cubic splines.
 # Nevertheless, all the codes here are my creation. 
 
 function cubic_spline(data)
+
+	# If this is called without the parameter data, then let's get the data first.
 	try
 		data;
 	catch
@@ -14,16 +16,15 @@ function cubic_spline(data)
 	end_try_catch
 
 	figure('name','Cubic Spline | Vizcarra, Christopher');
-	for i = 1:length(data)		# Loop the entries that was split by the delimiter 'SHAPE' from earlier
-								# First, get the number of data points and intervals
-								# Note that we have n + 1 data points and
-								# n intervals
+	for i = 1:length(data)			# Loop the entries that was split by the delimiter 'SHAPE' from earlier
+									# First, get the number of data points and intervals
+									# Note that we have n + 1 data points and
+									# n intervals
 		n = length(data{i}) - 1;
 		if( n > 1)
 			matrix_A = [];
 			matrix_B = [];
 									# Since this is a cubic spline, we need to have 4n equations
-			
 			for j = 2:n
 	 								# 1. The function value must be equal at the interior point
 	 								# This gives 2n-2 condition
@@ -83,7 +84,8 @@ function cubic_spline(data)
 			temp(3*n+1) = 1;
 
 			matrix_A = [matrix_A; temp];
-										# AN(Xn)^3 + Bn(Xn)^2 + CnXn + Dn = f(Xn)							
+			matrix_B = [matrix_B; data{i}{1}{2}];
+									# AN(Xn)^3 + Bn(Xn)^2 + CnXn + Dn = f(Xn)							
 			temp = [];
 			for k = 1:(4*n)
 				temp = [temp,0];
@@ -93,9 +95,8 @@ function cubic_spline(data)
 			temp(2*n) = (data{i}{n+1}{1})^2;
 			temp(3*n) = (data{i}{n+1}{1});
 			temp(4*n) = 1;
-			matrix_A = [matrix_A; temp];
 
-			matrix_B = [matrix_B; data{i}{1}{2}];
+			matrix_A = [matrix_A; temp];
 			matrix_B = [matrix_B; data{i}{n+1}{2}];
 
 									# 3. The first derivatives at the interior knots must be equal (n-1 conditions)
@@ -103,8 +104,8 @@ function cubic_spline(data)
 									# From i = 2:n
 									# 3*Ai-1*(Xi-1)^2 + 2*(Bi-1)*(Xi-1) + (Ci-1) = 3 Ai*(Xi-1)^2 + 2*(Bi)*(Xi-1) + (Ci)
 									# 3*Ai-1*(Xi-1)^2 + 2*(Bi-1)*(Xi-1) + (Ci-1) - 3 Ai*(Xi-1)^2 - 2*(Bi)*(Xi-1) - (Ci) = 0
-
 			for j = 2:n
+
 				temp = [];
 				for k = 1:(4*n)
 					temp = [temp,0];
@@ -176,8 +177,7 @@ function cubic_spline(data)
 			matrix_A = [matrix_A; temp];
 			matrix_B = [matrix_B; 0];
 
-
-			solution = matrix_A\matrix_B;
+			solution = matrix_A\matrix_B;	# We have completed the equations. Now we solve the unknowns
 			# matrix_A						# Uncomment this to print the Matrix A
 			# matrix_B						# Uncomment this to print the Matrix B
 			# solution						# Uncomment this to print the Solution (Coefficients)
@@ -216,14 +216,14 @@ function cubic_spline(data)
 					hold on;
 				endif
 			endfor
-		elseif(n==1)
+		elseif(n==1)					# If we only have two points, then we just need to form a line 
 			x0 = data{i}{1}{1};
 			y0 = data{i}{1}{2};
 			x1 = data{i}{2}{1};
 			y1 = data{i}{2}{2};
-			# disp("Pasok");
+
 			if(x0 == x1)
-				if(y0 > y1)
+				if(y0 > y1)			# Case where line is vertical
 					temp = y1;
 					y1 = y0;
 					y0 = temp;
@@ -257,4 +257,4 @@ function cubic_spline(data)
 	hold off;
 endfunction 
 
-# Developed by: Toph Vizcarra, 2016
+# Programmed by: Toph Vizcarra, 2016
