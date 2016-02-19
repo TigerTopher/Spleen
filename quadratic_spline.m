@@ -211,6 +211,7 @@ function quadratic_spline(data)
 		endif
 	endfor
 	hold off;
+	disp("Plotted Quadratic Spline...");
 endfunction
 
 # Programmed by: Toph Vizcarra, 2016

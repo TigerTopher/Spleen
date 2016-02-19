@@ -255,6 +255,7 @@ function cubic_spline(data)
 		endif
 	endfor
 	hold off;
+	disp("Plotted Cubic Spline...");
 endfunction 
 
 # Programmed by: Toph Vizcarra, 2016

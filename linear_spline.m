@@ -50,6 +50,7 @@ function linear_spline(data)
 		endfor
 	endfor
 	hold off;
+	disp("Plotted Linear Spline...");
 endfunction
 
 # Developed by: Toph Vizcarra, 2016
