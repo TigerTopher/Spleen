@@ -14,7 +14,7 @@ function cubic_spline(data)
 	catch
 		data = get_the_file("input.txt");
 	end_try_catch
-
+	
 	figure('name','Cubic Spline | Vizcarra, Christopher');
 	for i = 1:length(data)			# Loop the entries that was split by the delimiter 'SHAPE' from earlier
 									# First, get the number of data points and intervals
@@ -256,6 +256,8 @@ function cubic_spline(data)
 	endfor
 	hold off;
 	disp("Plotted Cubic Spline...");
+	figure;								# Without this, the last plotted graph doesn't appear as the program terminates before it is displayed. (in Windows)
+	close;
 endfunction 
 
 # Programmed by: Toph Vizcarra, 2016

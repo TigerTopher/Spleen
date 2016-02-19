@@ -212,6 +212,8 @@ function quadratic_spline(data)
 	endfor
 	hold off;
 	disp("Plotted Quadratic Spline...");
+	figure;								# Without this, the last plotted graph doesn't appear as the program terminates before it is displayed. (in Windows)
+	close;
 endfunction
 
 # Programmed by: Toph Vizcarra, 2016

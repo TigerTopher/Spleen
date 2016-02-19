@@ -19,17 +19,16 @@
 
 	[Windows]
 	I was able to run my program in Windows 8.1 using Octave 3.6.4.
-	Since Octave 4.0.0 is unsupported in Windows 8.1 (buggy for plotting),
+	Since Octave 4.0.0 is unsupported in Windows 8.1,
 	I needed to change the graphics backend to 'gnuplot' (which was easily installed in Octave 3.6.4)
-	(although it was around 4 times slower and sometimes needed to run the program twice
-	for the last graph plotted on the first run appear). The Octave CLI was used.
+	(although it was around 4 times slower) The Octave CLI was used.
 	Moreover, my terminal says that Octave was configured for "i686-pc-mingw32"
 #}
 
 data = get_the_file("input.txt");
 # disp(data);						# Uncomment this to display the data
 
-disp("Program starts.");
+disp("MP 1 - Vizcarra - Program starts.");
 
 disp("Starting to plot linear spline...");
 linear_spline(data);
@@ -39,7 +38,9 @@ quadratic_spline(data);
 
 disp("Starting to plot cubic spline...");
 cubic_spline(data);
-figure;
+
+figure;								# Without this, the last plotted graph (cubic) doesn't appear as the program terminates before it is displayed. (in Windows)
 close;
+
 disp("Program ends.");
 # Programmed by: Toph Vizcarra, 2016

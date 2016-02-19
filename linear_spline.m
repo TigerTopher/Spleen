@@ -51,6 +51,8 @@ function linear_spline(data)
 	endfor
 	hold off;
 	disp("Plotted Linear Spline...");
+	figure;								# Without this, the last plotted graph doesn't appear as the program terminates before it is displayed. (in Windows)
+	close;
 endfunction
 
 # Developed by: Toph Vizcarra, 2016
